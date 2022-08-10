@@ -30,12 +30,16 @@ public class User implements UserDetails {
     @Column
     private boolean isValid;
 
+
+    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Authority> authorities = new HashSet<>();
+
     public User() {
     }
 
     public User(String username, String password) {
         this.username = username;
-        this.password = username;
+        this.password = password;
     }
 
     public long getId() {
@@ -46,8 +50,6 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public String getUsername() {

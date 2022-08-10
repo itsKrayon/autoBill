@@ -17,7 +17,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 @Service
@@ -66,8 +68,16 @@ public class AuthService implements IAuthService {
 
     public Map<String, Object> register(String username, String password){
         User user = new User(username,password);
+        Authority authority = new Authority();
+        authority.setAuthority("Role_User");
+        authority.setUser(user);
+        Set<Authority> authoritySet = new HashSet<>();
+        authoritySet.add(authority);
+        user.setAuthorities(authoritySet);
+        user.setValid(true);
         userRepository.save(user);
         Map<String, Object> result = new HashMap<>();
+        authorityRepository.save(authority);
         result.put("msg","注册成功");
         result.put("user",user);
         return  result;
