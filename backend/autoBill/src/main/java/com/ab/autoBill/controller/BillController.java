@@ -106,7 +106,7 @@ public class BillController {
      */
 //    @PostMapping(value = "/bill/getCsvFile")
 //    public ResponseEntity<byte[]> getCsvFile(@RequestParam("assignmentListId") String assignmentListId) throws IOException {
-//        File file = billService.getCsvFile(assignmentListId);;
+//        File file = billService.getCsvFile(assignmentListId);
 //        HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setContentType(MediaType.parseMediaType("application/octet-stream"));
 //        String fileName = file.getName();

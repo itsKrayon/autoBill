@@ -70,6 +70,7 @@ public class AuthService implements IAuthService {
         User user = new User(username,password);
         Authority authority = new Authority();
         authority.setAuthority("Role_User");
+        //控制username的唯一性
         authority.setUser(user);
         Set<Authority> authoritySet = new HashSet<>();
         authoritySet.add(authority);
