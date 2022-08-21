@@ -47,7 +47,7 @@ public class AuthService implements IAuthService {
      * @return token和用户信息
      */
     public Map<String, Object> login(String username, String password) {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         //用户不存在
         if (user == null) {
             throw new UsernameNotFoundException(username);
@@ -67,17 +67,21 @@ public class AuthService implements IAuthService {
     }
 
     public Map<String, Object> register(String username, String password){
+        Map<String, Object> result = new HashMap<>();
+        //控制username的唯一性
+        if(userRepository.findByUsername(username) != null){
+            result.put("msg","用户名已存在");
+            return result;
+        }
         User user = new User(username,password);
         Authority authority = new Authority();
         authority.setAuthority("Role_User");
-        //控制username的唯一性
         authority.setUser(user);
         Set<Authority> authoritySet = new HashSet<>();
         authoritySet.add(authority);
         user.setAuthorities(authoritySet);
         user.setValid(true);
         userRepository.save(user);
-        Map<String, Object> result = new HashMap<>();
         authorityRepository.save(authority);
         result.put("msg","注册成功");
         result.put("user",user);
